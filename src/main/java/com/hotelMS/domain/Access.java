@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Access {
+public class Access extends AbstractAuditingEntity{
     private Integer id;
     private String name;
     private String description;

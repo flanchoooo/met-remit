@@ -7,7 +7,7 @@ import java.util.Objects;
 
 
 @Entity
-public class User {
+public class User extends AbstractAuditingEntity {
     private Integer id;
     private String firstname;
     private String lastname;
@@ -28,6 +28,7 @@ public class User {
     public String nationality;
     public String phoneNumber;
     public String reference;
+    private Integer userType;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -224,6 +225,7 @@ public class User {
     public void setAccessId(Integer accessId) {
         this.accessId = accessId;
     }
+
 
     @Override
     public boolean equals(Object o) {

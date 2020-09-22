@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 
 @Entity
-public class Role {
+public class Role extends AbstractAuditingEntity {
     private Integer id;
     private String name;
     private String description;
