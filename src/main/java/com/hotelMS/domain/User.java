@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.Objects;
 
-import static org.bouncycastle.asn1.isismtt.x509.DeclarationOfMajority.dateOfBirth;
 
 @Entity
 public class User {

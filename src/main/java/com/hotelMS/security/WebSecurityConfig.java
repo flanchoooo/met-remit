@@ -69,6 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/configuration/security",
 						"/swagger-ui.html",
 						"/webjars/**",
+						"/user_type/save",
 
 						//ticketing system
 						"/ticketing/location",
