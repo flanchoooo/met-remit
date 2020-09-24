@@ -1,11 +1,13 @@
 package com.hotelMS.controller;
 
 import com.hotelMS.domain.User;
+import com.hotelMS.dto.user.CompanyDto;
 import com.hotelMS.dto.user.CreateUserDto;
 import com.hotelMS.dto.user.UserLoginDto;
 import com.hotelMS.service.impl.AuthServiceImpl;
 import com.hotelMS.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,4 +42,8 @@ public class UserController {
         return authService.activateUser(user);
     }
 
+    @RequestMapping(value="/getUserDetails", method = RequestMethod.POST)
+    public Object getDetails(@RequestBody CompanyDto companyDto) throws Exception {
+        return userDetailsService.getAllUser(companyDto);
+    }
 }

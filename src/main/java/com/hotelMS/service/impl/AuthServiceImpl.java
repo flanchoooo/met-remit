@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -65,13 +66,21 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
         User u = userRepository.findByUsername(userLoginDto.getUsername());
+
+        String pass = bcryptEncoder.encode(userLoginDto.getPassword());
+        String dbUserName = userLoginDto.getUsername();
+
+        Optional <User> login = userRepository.loginUserDetails(dbUserName, pass);
         logger.debug("got here");
 
         // check if the user is active/inactive
         if (!u.getActive()){
             return new ResponseObject().returnResponseBody(ResponseStatus.AUTH_FAILED.getStatus(), ResponseDescription.AUTH_FAILED_ACTIVE.getDescription());
         }
-
+        // check the username and password for the user to be able to login
+        if(!login.isPresent()){
+            return new ResponseObject().returnResponseBody(ResponseStatus.AUTH_FAILED.getStatus(), ResponseDescription.AUTH_LOGIN_FAILED_ACTIVE.getDescription());
+        }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
 

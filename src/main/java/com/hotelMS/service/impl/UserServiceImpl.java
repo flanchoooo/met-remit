@@ -1,6 +1,7 @@
 package com.hotelMS.service.impl;
 
 import com.hotelMS.domain.User;
+import com.hotelMS.dto.user.CompanyDto;
 import com.hotelMS.dto.user.CreateUserDto;
 import com.hotelMS.enums.ResponseDescription;
 import com.hotelMS.enums.ResponseObject;
@@ -99,5 +100,18 @@ public class UserServiceImpl implements UserService {
 		}catch (ConstraintViolationException exc){
 			return new ResponseObject().returnResponseBody(ResponseStatus.SQL_ERROR.getStatus(), exc.getCause().getLocalizedMessage(), jsonResponse);
 		}
+	}
+
+	public Object getAllUser(CompanyDto companyId ) throws Exception{
+
+		User user = userRepository.getAllBy(companyId);
+
+		if (user == null) {
+			throw new UsernameNotFoundException("no User found with the Company ID : " + companyId);
+		}
+
+		return ResponseEntity.ok(userRepository.getAllBy(companyId));
+
+
 	}
 }

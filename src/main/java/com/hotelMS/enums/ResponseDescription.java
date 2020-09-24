@@ -5,6 +5,7 @@ public enum ResponseDescription {
     // AUTHORISATION
     AUTH_FAILED("Authorisation failed."),
     AUTH_FAILED_ACTIVE("Authorisation failed. Account not active"),
+    AUTH_LOGIN_FAILED_ACTIVE("login failed. Kindly check your email and password"),
     AUTH_SUCCESS("Authorisation granted."),
     AUTH_RESET_SUCCESS("Your password has been reset successfully. You may proceed to login."),
 
