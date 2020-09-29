@@ -1,5 +1,6 @@
 package com.hotelMS.service;
 
+import com.hotelMS.domain.Role;
 import com.hotelMS.domain.User;
 import com.hotelMS.dto.user.CreateUserDto;
 import org.springframework.http.ResponseEntity;

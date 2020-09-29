@@ -1,5 +1,6 @@
 package com.hotelMS.service.impl;
 
+import com.hotelMS.domain.Role;
 import com.hotelMS.domain.User;
 import com.hotelMS.dto.user.UserLoginDto;
 import com.hotelMS.enums.ResponseDescription;
@@ -8,6 +9,7 @@ import com.hotelMS.enums.ResponseStatus;
 import com.hotelMS.notification.EmailServiceImpl;
 import com.hotelMS.notification.MessageTypes.PasswordResetEmail;
 import com.hotelMS.repository.PlatformRepository;
+import com.hotelMS.repository.RoleRepository;
 import com.hotelMS.repository.UserRepository;
 import com.hotelMS.security.JwtTokenUtil;
 import com.hotelMS.service.AuthService;
@@ -44,6 +46,10 @@ public class AuthServiceImpl implements AuthService {
     UserRepository userRepository;
 
     @Autowired
+    RoleRepository roleRepository;
+
+
+    @Autowired
     EmailServiceImpl emailService;
 
     @Autowired
@@ -66,25 +72,18 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
         User u = userRepository.findByUsername(userLoginDto.getUsername());
-
-        String pass = bcryptEncoder.encode(userLoginDto.getPassword());
-        String dbUserName = userLoginDto.getUsername();
-
-        Optional <User> login = userRepository.loginUserDetails(dbUserName, pass);
         logger.debug("got here");
 
         // check if the user is active/inactive
         if (!u.getActive()){
             return new ResponseObject().returnResponseBody(ResponseStatus.AUTH_FAILED.getStatus(), ResponseDescription.AUTH_FAILED_ACTIVE.getDescription());
         }
-        // check the username and password for the user to be able to login
-        if(!login.isPresent()){
-            return new ResponseObject().returnResponseBody(ResponseStatus.AUTH_FAILED.getStatus(), ResponseDescription.AUTH_LOGIN_FAILED_ACTIVE.getDescription());
-        }
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
 
         // return response with token
+
         Map<Object, Object> jsonResponse = new HashMap();
         jsonResponse.put(Constants.TOKEN, token);
         jsonResponse.put(Constants.USER, u);

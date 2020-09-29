@@ -1,11 +1,13 @@
 package com.hotelMS.service.impl;
 
+import com.hotelMS.domain.Role;
 import com.hotelMS.domain.User;
 import com.hotelMS.dto.user.CompanyDto;
 import com.hotelMS.dto.user.CreateUserDto;
 import com.hotelMS.enums.ResponseDescription;
 import com.hotelMS.enums.ResponseObject;
 import com.hotelMS.enums.ResponseStatus;
+import com.hotelMS.repository.RoleRepository;
 import com.hotelMS.repository.UserRepository;
 import com.hotelMS.utils.Constants;
 import com.hotelMS.service.UserService;
@@ -36,11 +38,16 @@ public class UserServiceImpl implements UserService {
 	@Resource
 	private UserRepository userRepository;
 
+	@Resource
+	private RoleRepository roleRepository;
+
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 
 	@Autowired
 	PasswordValidationImpl passwordValidation;
+
+
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -51,6 +58,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword() ,getAuthority(user));
 	}
+
 
 	public Set getAuthority(User user) {
 		Set authorities = new HashSet<>();

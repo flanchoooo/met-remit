@@ -17,6 +17,7 @@ public class Constants {
     public static final String USER                         = "user";
     public static final String PLATFORM                     = "platform";
     public static final String USER_TYPE                    = "userType";
+    public static final String ROLES                       = "roles";
     public static final int PLATFORM_ID                     = 1;
 
     // PASSWORD VALIDATION
