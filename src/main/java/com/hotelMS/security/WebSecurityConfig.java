@@ -15,8 +15,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 
 @Configuration
 @EnableWebSecurity
@@ -61,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 				// dont authenticate this particular request
 				.authorizeRequests()
 				.antMatchers(
-						HttpMethod.OPTIONS, "/**",
+
 						"/authenticate",
 						"/register",
 						"/password_reset",
@@ -129,7 +137,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 				.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		httpSecurity.cors();
+		httpSecurity.cors().configurationSource(corsConfigurationSource());
 		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
@@ -142,5 +150,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 		// .allowCredentials(true);
 	}
 
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		List<String> allowOrigins = Arrays.asList("*");
+		configuration.setAllowedOrigins(allowOrigins);
+		configuration.setAllowedMethods(singletonList("*"));
+		configuration.setAllowedHeaders(singletonList("*"));
+		//in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+		configuration.setAllowCredentials(true);
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
 }
