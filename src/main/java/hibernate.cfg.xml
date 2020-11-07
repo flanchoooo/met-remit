@@ -6,10 +6,10 @@
     <session-factory>
         <property name="connection.url">jdbc:mysql://localhost:3306/payroll</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <mapping class="com.hotelMS.domain.Access"/>
-        <mapping class="com.hotelMS.domain.Platform"/>
-        <mapping class="com.hotelMS.domain.Role"/>
-        <mapping class="com.hotelMS.domain.User"/>
+        <mapping class="com.remit.domain.Access"/>
+        <mapping class="com.remit.domain.Platform"/>
+        <mapping class="com.remit.domain.Role"/>
+        <mapping class="com.remit.domain.User"/>
         <!-- <property name="connection.username"/> -->
         <!-- <property name="connection.password"/> -->
 
